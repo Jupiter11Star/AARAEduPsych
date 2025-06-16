@@ -1,0 +1,571 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>B.Sc. Applied Psychology Hard Mock Test - AARA Education Consultancy</title>\
+    <style>\
+        body \{\
+            font-family: Arial, sans-serif;\
+            margin: 0;\
+            padding: 20px;\
+            background-color: #f4f4f4;\
+        \}\
+        .container \{\
+            max-width: 800px;\
+            margin: auto;\
+            background: white;\
+            padding: 20px;\
+            border-radius: 10px;\
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);\
+        \}\
+        .header \{\
+            text-align: center;\
+            margin-bottom: 20px;\
+        \}\
+        .header h1 \{\
+            color: #800000; /* Maroon for AARA Education Consultancy */\
+        \}\
+        .timer \{\
+            font-size: 18px;\
+            font-weight: bold;\
+            text-align: right;\
+            margin-bottom: 10px;\
+        \}\
+        .question \{\
+            margin-bottom: 20px;\
+        \}\
+        .question h3 \{\
+            margin: 0 0 10px;\
+        \}\
+        .options label \{\
+            display: block;\
+            margin: 5px 0;\
+        \}\
+        .navigation \{\
+            display: flex;\
+            justify-content: space-between;\
+            margin-top: 20px;\
+        \}\
+        .navigation button, #submit-btn \{\
+            padding: 10px 20px;\
+            background-color: #800000;\
+            color: white;\
+            border: none;\
+            border-radius: 5px;\
+            cursor: pointer;\
+        \}\
+        .navigation button:disabled, #submit-btn:disabled \{\
+            background-color: #ccc;\
+            cursor: not-allowed;\
+        \}\
+        .question-list \{\
+            margin-top: 20px;\
+            padding: 10px;\
+            background: #f9f9f9;\
+            border-radius: 5px;\
+        \}\
+        .question-list button \{\
+            margin: 5px;\
+            padding: 5px 10px;\
+            border: 1px solid #800000;\
+            background: white;\
+            cursor: pointer;\
+        \}\
+        .question-list button.answered \{\
+            background: #800000;\
+            color: white;\
+        \}\
+        .question-list button.current \{\
+            background: #ddd;\
+        \}\
+        .result \{\
+            display: none;\
+            margin-top: 20px;\
+        \}\
+        .result h2 \{\
+            color: #800000;\
+        \}\
+        .result details \{\
+            margin-top: 10px;\
+        \}\
+        @media (max-width: 600px) \{\
+            .container \{\
+                padding: 10px;\
+            \}\
+            .navigation button, #submit-btn \{\
+                padding: 8px 15px;\
+                font-size: 14px;\
+            \}\
+            .question-list button \{\
+                padding: 3px 8px;\
+                font-size: 12px;\
+            \}\
+        \}\
+    </style>\
+</head>\
+<body>\
+    <div class="container">\
+        <div class="header">\
+            <h1>AARA Education Consultancy</h1>\
+            <h2>B.Sc. Applied Psychology Hard Mock Test (NMIMS 2025)</h2>\
+            <p>Coach: Sachin Karad</p>\
+        </div>\
+        <div class="timer" id="timer">Time Left: 60:00</div>\
+        <div class="question" id="question-container">\
+            <h3 id="question-text"></h3>\
+            <div class="options" id="options-container"></div>\
+        </div>\
+        <div class="navigation">\
+            <button id="prev-btn" disabled>Previous</button>\
+            <button id="next-btn">Next</button>\
+            <button id="submit-btn" style="display: none;">Submit Test</button>\
+        </div>\
+        <div class="question-list">\
+            <h4>Questions:</h4>\
+            <div id="question-nav"></div>\
+        </div>\
+        <div class="result" id="result-container">\
+            <h2>Test Results</h2>\
+            <p id="score-text"></p>\
+            <p id="percentage-text"></p>\
+            <details>\
+                <summary>View Answers & Explanations</summary>\
+                <div id="answers-container"></div>\
+            </details>\
+        </div>\
+    </div>\
+\
+    <script>\
+        const questions = [\
+            // English Language (10 Hard Questions from English Language MCQ.pdf)\
+            \{\
+                question: "Synonym of 'perspicuous':",\
+                options: ["Obscure", "Lucid", "Vague", "Ambiguous"],\
+                answer: "Lucid",\
+                explanation: "'Perspicuous' means clearly expressed; 'lucid' is a precise synonym. Root 'spec-' (see) suggests clarity."\
+            \},\
+            \{\
+                question: "Antonym of 'sanguine':",\
+                options: ["Optimistic", "Pessimistic", "Cheerful", "Hopeful"],\
+                answer: "Pessimistic",\
+                explanation: "'Sanguine' means optimistic; 'pessimistic' is its opposite. Eliminate synonyms like 'cheerful.'"\
+            \},\
+            \{\
+                question: "Choose the correct word: His ___ remarks alienated the audience.",\
+                options: ["Facetious", "Eloquent", "Erudite", "Sagacious"],\
+                answer: "Facetious",\
+                explanation: "'Facetious' (inappropriately humorous) fits the negative context of alienation. Others are positive."\
+            \},\
+            \{\
+                question: "Analogy: Cacophony is to sound as pandemonium is to:",\
+                options: ["Silence", "Chaos", "Order", "Harmony"],\
+                answer: "Chaos",\
+                explanation: "Cacophony is disorderly sound; pandemonium is disorderly chaos (similar relationship)."\
+            \},\
+            \{\
+                question: "Identify the error: Neither the manager nor the employees was informed.",\
+                options: ["Neither", "Manager", "Was", "Informed"],\
+                answer: "Was",\
+                explanation: "In 'neither...nor,' the verb agrees with the closer subject ('employees,' plural), so 'were' is correct."\
+            \},\
+            \{\
+                question: "If 'HAPPY' is coded as 'KDSUG,' how is 'SMILE' coded?",\
+                options: ["VNTOF", "UOTPG", "WPUQH", "XQVRI"],\
+                answer: "UOTPG",\
+                explanation: "Each letter in HAPPY shifts +3 and is reversed: H(8)\uc0\u8594 K(11), A(1)\u8594 D(4), etc. SMILE: S\u8594 V, M\u8594 P, I\u8594 L, L\u8594 O, E\u8594 I. Reverse: UOTPG."\
+            \},\
+            \{\
+                question: "Choose the correct word: The ___ of the evidence was undeniable.",\
+                options: ["Ambiguity", "Verisimilitude", "Fallacy", "Equivocation"],\
+                answer: "Verisimilitude",\
+                explanation: "'Verisimilitude' (truthfulness) fits the context of undeniable evidence."\
+            \},\
+            \{\
+                question: "Analogy: Ephemeral is to time as infinitesimal is to:",\
+                options: ["Space", "Sound", "Light", "Weight"],\
+                answer: "Space",\
+                explanation: "Ephemeral denotes shortness in time; infinitesimal denotes smallness in space."\
+            \},\
+            \{\
+                question: "Identify the error: The jury was divided in their opinions.",\
+                options: ["Jury", "Was", "Their", "Opinions"],\
+                answer: "Was",\
+                explanation: "'Jury' is singular here, so 'was' is correct, but 'their' is inconsistent. Correct: 'The jury was divided in its opinions.'"\
+            \},\
+            \{\
+                question: "Complete: The ___ of her argument swayed the jury.",\
+                options: ["Fallacy", "Cogency", "Ambiguity", "Irrelevance"],\
+                answer: "Cogency",\
+                explanation: "'Cogency' (logical persuasiveness) fits swaying a jury."\
+            \},\
+\
+            // General Awareness (10 Hard Questions from MCQ on Social and General Awareness.pdf)\
+            \{\
+                question: "The UN\'92s World Press Freedom Day 2024 theme was:",\
+                options: ["Journalism and Environment", "Press for the Planet", "Freedom of Speech", "Media Safety"],\
+                answer: "Press for the Planet",\
+                explanation: "The 2024 theme focused on journalism\'92s role in environmental issues."\
+            \},\
+            \{\
+                question: "Which country launched a global AI governance framework in 2024?",\
+                options: ["USA", "China", "India", "EU"],\
+                answer: "EU",\
+                explanation: "The EU introduced a global AI governance framework in 2024 to regulate AI development."\
+            \},\
+            \{\
+                question: "The World Bank\'92s 2024 gender equality report focused on:",\
+                options: ["Economic empowerment", "Space research", "Digital literacy", "Food security"],\
+                answer: "Economic empowerment",\
+                explanation: "The 2024 report emphasized economic opportunities for women."\
+            \},\
+            \{\
+                question: "The UN\'92s Decade of Ocean Science (2021-2030) focuses on:",\
+                options: ["Ocean sustainability", "Economic growth", "Gender equality", "Space research"],\
+                answer: "Ocean sustainability",\
+                explanation: "The UN initiative aims to promote sustainable ocean management."\
+            \},\
+            \{\
+                question: "Which Indian organization promotes biotechnology?",\
+                options: ["DBT", "ISRO", "DRDO", "BARC"],\
+                answer: "DBT",\
+                explanation: "The Department of Biotechnology (DBT) advances biotech research in India."\
+            \},\
+            \{\
+                question: "The International Criminal Court (ICC) prosecutes:",\
+                options: ["Economic crimes", "War crimes", "Environmental crimes", "Cyber crimes"],\
+                answer: "War crimes",\
+                explanation: "The ICC focuses on prosecuting war crimes and crimes against humanity."\
+            \},\
+            \{\
+                question: "The UN\'92s World Humanitarian Day 2024 theme was:",\
+                options: ["Act for Humanity", "Save Lives", "Global Solidarity", "Aid Workers"],\
+                answer: "Act for Humanity",\
+                explanation: "The 2024 theme emphasized humanitarian action and support."\
+            \},\
+            \{\
+                question: "Which country faced a political coup in 2023?",\
+                options: ["Niger", "Sudan", "Myanmar", "Mali"],\
+                answer: "Niger",\
+                explanation: "Niger experienced a political coup in 2023, leading to significant unrest."\
+            \},\
+            \{\
+                question: "The Global Compact for Migration addresses:",\
+                options: ["Safe migration", "Economic growth", "Child welfare", "Space exploration"],\
+                answer: "Safe migration",\
+                explanation: "The UN\'92s Global Compact promotes safe, orderly, and regular migration."\
+            \},\
+            \{\
+                question: "The National Policy for Rare Diseases in India supports:",\
+                options: ["Rare disease treatment", "Space research", "Economic policy", "Environmental protection"],\
+                answer: "Rare disease treatment",\
+                explanation: "The policy provides support for diagnosis and treatment of rare diseases."\
+            \},\
+\
+            // Reasoning Skills (10 Hard Questions from Reasoning Skills Concept & MCQ.pdf)\
+            \{\
+                question: "If P implies Q, Q implies R, and R implies S, but S is false, what is true about P?",\
+                options: ["P is true", "P is false", "P can be true or false", "Cannot determine"],\
+                answer: "P is false",\
+                explanation: "P\uc0\u8594 Q\u8594 R\u8594 S forms a chain. If S is false, R is false (R\u8594 S), Q is false (Q\u8594 R), and P is false (P\u8594 Q)."\
+            \},\
+            \{\
+                question: "A cube is painted red on all faces and cut into 27 smaller cubes. How many have exactly 2 faces painted?",\
+                options: ["8", "12", "18", "24"],\
+                answer: "12",\
+                explanation: "A 3\'d73\'d73 cube has 27 smaller cubes. Cubes with 2 painted faces are middle cubes on each of the 12 edges."\
+            \},\
+            \{\
+                question: "If X implies Y, not Y implies Z, and Z implies not X, what is true?",\
+                options: ["X is true", "Y is true", "Z is true", "Cannot determine"],\
+                answer: "Cannot determine",\
+                explanation: "X\uc0\u8594 Y, \'acY\u8594 Z, Z\u8594 \'acX. Multiple consistent scenarios exist (e.g., X true, Y true, Z false or X false, Z false), so no definite truth value."\
+            \},\
+            \{\
+                question: "Five people (A, B, C, D, E) sit in a row. A is not next to B, C is left of D, and E is not at an end. Who is in the middle?",\
+                options: ["A", "B", "C", "D"],\
+                answer: "D",\
+                explanation: "E at position 2, 3, or 4. C<D. A not next to B. Arrangement like B,C,E,D,A places D in the middle (position 3)."\
+            \},\
+            \{\
+                question: "Find the next number: 1, 2, 6, 15, 31, ?",\
+                options: ["56", "60", "62", "64"],\
+                answer: "56",\
+                explanation: "Differences are 1, 4, 9, 16 (squares: 1\'b2, 2\'b2, 3\'b2, 4\'b2). Next is 5\'b2=25. 31+25=56."\
+            \},\
+            \{\
+                question: "A tetrahedron\'92s faces are colored red, blue, green, yellow. How many ways can it be placed with red face down?",\
+                options: ["1", "2", "3", "4"],\
+                answer: "3",\
+                explanation: "With red face down, the tetrahedron can rotate to show any of the 3 other faces (blue, green, yellow) upward."\
+            \},\
+            \{\
+                question: "If 5% of A equals 20% of B, and A+B=500, what is A?",\
+                options: ["400", "350", "300", "250"],\
+                answer: "400",\
+                explanation: "0.05A=0.2B \uc0\u8594  A=4B. A+B=500 \u8594  4B+B=500 \u8594  5B=500 \u8594  B=100. A=4\'d7100=400."\
+            \},\
+            \{\
+                question: "Six people (A, B, C, D, E, F) sit around a table. A is opposite C, B is next to D, E is not next to F. Who is opposite B?",\
+                options: ["A", "C", "E", "F"],\
+                answer: "E",\
+                explanation: "A opposite C (positions 1,4). Try A,B,D,C,F,E. B(2) is opposite E(5)."\
+            \},\
+            \{\
+                question: "A $4 \\times 4$ grid has a $2 \\times 2$ square shaded in the top-left corner. After a $180^\{\\circ\}$ rotation, where is the shaded square?",\
+                options: ["Top-left", "Top-right", "Bottom-left", "Bottom-right"],\
+                answer: "Bottom-right",\
+                explanation: "A $180^\{\\circ\}$ rotation maps (1,1) to (4,4), moving the top-left $2 \\times 2$ square to the bottom-right."\
+            \},\
+            \{\
+                question: "If 'FRIEND' is coded as 'KSJTKW,' how is 'ENEMY' coded?",\
+                options: ["PJHLTK", "OKGUSI", "NLIVRJ", "QMJWUL"],\
+                answer: "NLIVRJ",\
+                explanation: "FRIEND\uc0\u8594 KSJTKW: +5 shift (F\u8594 K, R\u8594 W, etc.). ENEMY: E\u8594 I(+4), N\u8594 S(+5), E\u8594 I(+4), M\u8594 R(+5), Y\u8594 J(+11). Adjust: NLIVRJ."\
+            \},\
+\
+            // Social Awareness (10 Hard Questions from MCQ on Social and General Awareness.pdf)\
+            \{\
+                question: "The Sendai Framework addresses:",\
+                options: ["Disaster risk reduction", "Gender equality", "Education access", "Poverty reduction"],\
+                answer: "Disaster risk reduction",\
+                explanation: "The Sendai Framework focuses on reducing disaster risks globally."\
+            \},\
+            \{\
+                question: "The UN Disability Inclusion Strategy promotes:",\
+                options: ["Disability inclusion", "Gender equality", "Clean energy", "Education access"],\
+                answer: "Disability inclusion",\
+                explanation: "The UN strategy aims to ensure inclusion of persons with disabilities."\
+            \},\
+            \{\
+                question: "The Live Love Laugh Foundation addresses:",\
+                options: ["Mental health stigma", "Economic inequality", "Urban migration", "Digital divide"],\
+                answer: "Mental health stigma",\
+                explanation: "Founded by Deepika Padukone, it focuses on reducing mental health stigma."\
+            \},\
+            \{\
+                question: "The Global Partnership for Education promotes:",\
+                options: ["Education access", "Economic growth", "Space research", "Child welfare"],\
+                answer: "Education access",\
+                explanation: "The partnership supports education in developing countries."\
+            \},\
+            \{\
+                question: "The NALSA Judgment promotes:",\
+                options: ["Transgender inclusion", "Sanitation", "Education access", "Renewable energy"],\
+                answer: "Transgender inclusion",\
+                explanation: "The NALSA Judgment ensures legal recognition and rights for transgender individuals in India."\
+            \},\
+            \{\
+                question: "The UN\'92s Decade on Ecosystem Restoration (2021-2030) focuses on:",\
+                options: ["Ecosystem recovery", "Economic growth", "Gender equality", "Space research"],\
+                answer: "Ecosystem recovery",\
+                explanation: "The UN initiative aims to restore degraded ecosystems."\
+            \},\
+            \{\
+                question: "The Global Alliance for Vaccines and Immunization (GAVI) supports:",\
+                options: ["Vaccination programs", "Economic growth", "Space research", "Education access"],\
+                answer: "Vaccination programs",\
+                explanation: "GAVI funds vaccination efforts in low-income countries."\
+            \},\
+            \{\
+                question: "Social capital refers to:",\
+                options: ["Economic wealth", "Networks and relationships", "Space technology", "Digital literacy"],\
+                answer: "Networks and relationships",\
+                explanation: "Social capital involves community networks and relationships that foster cooperation."\
+            \},\
+            \{\
+                question: "The National Urban Livelihoods Mission supports:",\
+                options: ["Rural development", "Urban poor empowerment", "Space research", "Healthcare"],\
+                answer: "Urban poor empowerment",\
+                explanation: "The mission aims to improve livelihoods for the urban poor."\
+            \},\
+            \{\
+                question: "The Convention on Biological Diversity addresses:",\
+                options: ["Biodiversity loss", "Poverty reduction", "Gender equality", "Education access"],\
+                answer: "Biodiversity loss",\
+                explanation: "The convention focuses on conserving biodiversity globally."\
+            \},\
+\
+            // Basics of Psychology (10 Hard Questions from MCQ_Basics of Psychology.pdf)\
+            \{\
+                question: "The polyvagal theory explains:",\
+                options: ["Emotional expression", "Autonomic responses to stress", "Cognitive appraisal", "Facial feedback"],\
+                answer: "Autonomic responses to stress",\
+                explanation: "The polyvagal theory describes how the autonomic nervous system responds to stress."\
+            \},\
+            \{\
+                question: "The overjustification effect reduces:",\
+                options: ["Extrinsic motivation", "Intrinsic motivation", "Biological drives", "Social needs"],\
+                answer: "Intrinsic motivation",\
+                explanation: "External rewards can reduce intrinsic motivation, known as the overjustification effect."\
+            \},\
+            \{\
+                question: "The implicit association test measures:",\
+                options: ["Conscious attitudes", "Unconscious biases", "Behavioral intentions", "Emotional states"],\
+                answer: "Unconscious biases",\
+                explanation: "The IAT assesses unconscious biases by measuring response times to paired concepts."\
+            \},\
+            \{\
+                question: "The vulnerability-stress model is similar to:",\
+                options: ["Biopsychosocial model", "Psychoanalytic model", "Behavioral model", "Cognitive model"],\
+                answer: "Biopsychosocial model",\
+                explanation: "Both models explain disorders through a combination of biological, psychological, and social factors."\
+            \},\
+            \{\
+                question: "Catatonia is associated with:",\
+                options: ["Anxiety disorders", "Mood disorders", "Schizophrenia", "Substance abuse"],\
+                answer: "Schizophrenia",\
+                explanation: "Catatonia, involving motor abnormalities, is often linked to schizophrenia."\
+            \},\
+            \{\
+                question: "The Stroop test measures:",\
+                options: ["Emotional intelligence", "Cognitive interference", "Personality traits", "Motor skills"],\
+                answer: "Cognitive interference",\
+                explanation: "The Stroop test assesses cognitive interference by measuring response times to conflicting stimuli."\
+            \},\
+            \{\
+                question: "Insight learning was studied by:",\
+                options: ["Wolfgang K\'f6hler", "Ivan Pavlov", "B.F. Skinner", "John Watson"],\
+                answer: "Wolfgang K\'f6hler",\
+                explanation: "K\'f6hler\'92s chimpanzee studies demonstrated sudden problem-solving through insight."\
+            \},\
+            \{\
+                question: "The elaboration likelihood model explains attitude change via:",\
+                options: ["Central and peripheral routes", "Emotional arousal", "Group dynamics", "Biological factors"],\
+                answer: "Central and peripheral routes",\
+                explanation: "The model describes attitude change through deep (central) or superficial (peripheral) processing."\
+            \},\
+            \{\
+                question: "Kohlberg\'92s post-conventional level involves:",\
+                options: ["Obedience to authority", "Personal moral principles", "Social contracts", "Self-interest"],\
+                answer: "Personal moral principles",\
+                explanation: "The post-conventional level is guided by universal ethical principles."\
+            \},\
+            \{\
+                question: "The Vineland Adaptive Behavior Scales assess:",\
+                options: ["Cognitive abilities", "Daily living skills", "Emotional stability", "Sensory processing"],\
+                answer: "Daily living skills",\
+                explanation: "The scales measure adaptive behaviors like communication and daily living skills."\
+            \}\
+        ];\
+\
+        let currentQuestion = 0;\
+        let answers = Array(questions.length).fill(null);\
+        let timeLeft = 3600; // 60 minutes in seconds\
+        let timerInterval;\
+\
+        function startTimer() \{\
+            timerInterval = setInterval(() => \{\
+                timeLeft--;\
+                const minutes = Math.floor(timeLeft / 60);\
+                const seconds = timeLeft % 60;\
+                document.getElementById('timer').textContent = `Time Left: $\{minutes\}:$\{seconds < 10 ? '0' : ''\}$\{seconds\}`;\
+                if (timeLeft <= 0) \{\
+                    clearInterval(timerInterval);\
+                    alert('Time is up! Submitting test.');\
+                    submitTest();\
+                \}\
+            \}, 1000);\
+        \}\
+\
+        function displayQuestion(index) \{\
+            const q = questions[index];\
+            document.getElementById('question-text').textContent = `$\{index + 1\}. $\{q.question\}`;\
+            const optionsContainer = document.getElementById('options-container');\
+            optionsContainer.innerHTML = '';\
+            q.options.forEach((option, i) => \{\
+                const label = document.createElement('label');\
+                label.innerHTML = `<input type="radio" name="option" value="$\{option\}" $\{answers[index] === option ? 'checked' : ''\}> $\{option\}`;\
+                optionsContainer.appendChild(label);\
+            \});\
+            document.getElementById('prev-btn').disabled = index === 0;\
+            document.getElementById('next-btn').style.display = index === questions.length - 1 ? 'none' : 'inline-block';\
+            document.getElementById('submit-btn').style.display = index === questions.length - 1 ? 'inline-block' : 'none';\
+            updateQuestionNav();\
+        \}\
+\
+        function saveAnswer() \{\
+            const selected = document.querySelector('input[name="option"]:checked');\
+            if (selected) \{\
+                answers[currentQuestion] = selected.value;\
+            \}\
+        \}\
+\
+        function updateQuestionNav() \{\
+            const nav = document.getElementById('question-nav');\
+            nav.innerHTML = '';\
+            questions.forEach((_, i) => \{\
+                const btn = document.createElement('button');\
+                btn.textContent = i + 1;\
+                if (answers[i]) btn.classList.add('answered');\
+                if (i === currentQuestion) btn.classList.add('current');\
+                btn.addEventListener('click', () => \{\
+                    saveAnswer();\
+                    currentQuestion = i;\
+                    displayQuestion(i);\
+                \});\
+                nav.appendChild(btn);\
+            \});\
+        \}\
+\
+        function submitTest() \{\
+            saveAnswer();\
+            clearInterval(timerInterval);\
+            let score = 0;\
+            answers.forEach((answer, i) => \{\
+                if (answer === questions[i].answer) score++;\
+            \});\
+            const percentage = (score / questions.length) * 100;\
+            document.getElementById('score-text').textContent = `Score: $\{score\} / $\{questions.length\}`;\
+            document.getElementById('percentage-text').textContent = `Percentage: $\{percentage.toFixed(2)\}%`;\
+            const answersContainer = document.getElementById('answers-container');\
+            answersContainer.innerHTML = '';\
+            questions.forEach((q, i) => \{\
+                const div = document.createElement('div');\
+                div.innerHTML = `\
+                    <p><strong>Q$\{i + 1\}: $\{q.question\}</strong></p>\
+                    <p>Your Answer: $\{answers[i] || 'Not Answered'\}</p>\
+                    <p>Correct Answer: $\{q.answer\}</p>\
+                    <p>Explanation: $\{q.explanation\}</p>\
+                    <hr>\
+                `;\
+                answersContainer.appendChild(div);\
+            \});\
+            document.getElementById('question-container').style.display = 'none';\
+            document.getElementById('navigation').style.display = 'none';\
+            document.getElementById('question-list').style.display = 'none';\
+            document.getElementById('result-container').style.display = 'block';\
+        \}\
+\
+        document.getElementById('prev-btn').addEventListener('click', () => \{\
+            saveAnswer();\
+            currentQuestion--;\
+            displayQuestion(currentQuestion);\
+        \});\
+\
+        document.getElementById('next-btn').addEventListener('click', () => \{\
+            saveAnswer();\
+            currentQuestion++;\
+            displayQuestion(currentQuestion);\
+        \});\
+\
+        document.getElementById('submit-btn').addEventListener('click', () => \{\
+            if (confirm('Are you sure you want to submit the test?')) \{\
+                submitTest();\
+            \}\
+        \});\
+\
+        // Initialize\
+        displayQuestion(currentQuestion);\
+        updateQuestionNav();\
+        startTimer();\
+    </script>\
+</body>\
+</html>}
